@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+    <html>
+        <head>
+            <title>Calculadora</title>
+            <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        </head>
+        <body>
+            <h2>Calculadora Simples</h2>
+            <form id="calc.html">
+                <label for="num1">Número 1:</label>
+                <input type="text" id="num1" required>
+
+                <label for="operacao">Operação:</label>
+                <select id="operacao" required>
+                    <option value="soma">+</option>
+                    <option value="subtracao">-</option>
+                    <option value="multiplicacao">*</option>
+                    <option value="divisao">/</option>
+                </select>
+
+                <label for="num2">Número 2:</label>
+                <input type="text" id="num2" required>
+
+                <button type="button" onclick="calcular()">Calcular</button>
+            </form>
+            <div id="resultado"></div>
+
+            <script>
+                function calcular() 
+                {
+                    var num1 = parseFloat($('#num1').val());
+                    var num2 = parseFloat($('#num2').val());
+                    var operacao = $('#operacao').val();
+        
+                    $.ajax({
+                        type: 'POST',
+                        url: 'conta.php',
+                        data: { num1: num1, num2: num2, operacao: operacao },
+                        dataType: 'json',
+                        success: function (data) {
+                            $('#resultado').html("<h2>Resultado:</h2><p>" + data.resultado + "</p>");
+                        },
+                        error: function (error) {
+                            console.error('Erro:', error);
+                        }
+                    });
+                }
+            </script>
+</body>
+</html>
